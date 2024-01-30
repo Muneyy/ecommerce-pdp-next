@@ -6,6 +6,7 @@ export interface ProductType {
     price: number;
     discount: number;
     imageLinks: string[];
+    thumbnailImage: string;
 }
 
 export interface CartProductType {
