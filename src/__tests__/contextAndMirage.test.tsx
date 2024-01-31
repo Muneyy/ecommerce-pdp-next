@@ -99,8 +99,7 @@ describe('Test', () => {
             expect(screen.getByTestId('loading-finished')).toBeInTheDocument()
         })
 
-        // expect(screen.getByTestId("company-name").textContent).toEqual('Sneaker Company')
-        expect(screen.getByTestId("company-name").textContent).toEqual('Sneaker ComPNIAFD')
+        expect(screen.getByTestId("company-name").textContent).toEqual('Sneaker Company')
     })
 
     it('images are correctly imported in mirage', async () => {
