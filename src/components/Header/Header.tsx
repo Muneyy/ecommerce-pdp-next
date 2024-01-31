@@ -1,11 +1,9 @@
 "use client";
 
-import hamburgerMenu from "@/assets/images/icon-menu.svg";
-import logoSvg from "@/assets/images/logo.svg";
-import cartSvg from "@/assets/images/icon-cart.svg";
 import avatarPng from "@/assets/images/image-avatar.png";
 import styles from "./Header.module.sass";
 import Image from "next/image";
+import { CartSvg, LogoSvg, MenuSvg } from "@/assets/svgs/SvgComponents";
 
 export default function Header({
   toggleSidebar,
@@ -14,22 +12,33 @@ export default function Header({
 }) {
   return (
     <header className={styles.header}>
-      <section className={styles.headerLeftSide}>
-        <button onClick={toggleSidebar} className={styles.menuButton}>
-          <Image src={hamburgerMenu} alt="hamburger menu" />
+      <section
+        aria-label="Contains hamburger menu icon to toggle sidebar"
+        className={styles.headerLeftSide}
+      >
+        <button
+          aria-label="Toggle sidebar menu"
+          type="button"
+          onClick={toggleSidebar}
+          className={styles.menuButton}
+        >
+          <MenuSvg />
         </button>
       </section>
       <section className={styles.headerRightSide}>
-        <div className="logo">
-          <Image
-            className={styles.companyLogo}
-            src={logoSvg}
-            alt="sneakers company logo"
-          />
+        <div aria-label="Contains company logo" className="logo">
+          <LogoSvg />
         </div>
-        <div className={styles.userAndAvatar}>
-          <button className={styles.cartButton}>
-            <Image src={cartSvg} alt="shopping cart icon" />
+        <div
+          aria-label="Contains shopping cart and user icons"
+          className={styles.userAndAvatar}
+        >
+          <button
+            type="button"
+            className={styles.cartButton}
+            aria-label="Toggle shopping cart"
+          >
+            <CartSvg />
           </button>
           <Image
             className={styles.avatar}

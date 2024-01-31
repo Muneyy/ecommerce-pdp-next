@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.sass";
 
-// const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
   title: "Ecommerce Product Detail Page",
   description:
