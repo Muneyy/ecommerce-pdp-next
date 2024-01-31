@@ -10,10 +10,10 @@ import CartProvider, { CartContext } from '@/context/CartContext';
 
 function TestComponent () {
 
-    const [fetchedData, setFetchedData] = useState<ProductType[]>({});
+    const [fetchedData, setFetchedData] = useState<ProductType[] | []>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [quantity, setQuantity] = useState(0);
-    const { test, cart, addToCart, deleteFromCart } = useContext(CartContext);
+    const { cart, addToCart, deleteFromCart } = useContext(CartContext);
 
     useEffect(() => {
         async function fetchProducts() {
@@ -39,6 +39,8 @@ function TestComponent () {
 
     async function handleAddToCart () {
         const product = fetchedData[0];
+        if (quantity <= 0) return;
+        
         addToCart({...product, quantity: quantity});
     }
 
@@ -54,7 +56,6 @@ function TestComponent () {
             <h1>Loading finished</h1>
             <div>
                 <p>{fetchedData[0].company}</p>
-                <p>{test}</p>
                 <button onClick={handleIncrement}>+</button>
                 <button onClick={handleDecrement}>-</button>
                 <button onClick={handleAddToCart}>Add to cart</button>
@@ -70,7 +71,7 @@ function TestComponent () {
                 <div className='cart'>
                     <h2>Cart</h2>
                     <p id='cart-id'>Product ID is {cart[0].id}</p>
-                    <p id='cart-quantity'>Quantity is {cart[0].quantity}</p>
+                    <p id='cart-quantity' role="show-quantity">Quantity is {cart[0].quantity}</p>
                 </div>
                 )
             }
@@ -100,7 +101,6 @@ describe('Test', () => {
         })
 
         expect(screen.getByText("Sneaker Company")).toBeInTheDocument()
-        expect(screen.getByText("test")).toBeInTheDocument()
     })
 
     it('images are correctly imported in mirage', async () => {
@@ -144,7 +144,7 @@ describe('Test', () => {
         expect(quantityHolder.textContent).toBe('0');
     })
 
-    it('adds to cart', async () => {
+    it('adds/deletes to/from cart', async () => {
         await waitFor(() => {
             expect(screen.getByText('Loading finished')).toBeInTheDocument()
         })
@@ -158,31 +158,44 @@ describe('Test', () => {
         expect(screen.getByText('Product ID is 1')).toBeInTheDocument()
         expect(screen.getByText('Quantity is 1')).toBeInTheDocument()
 
-        fireEvent.click(addToCartButton)
-        expect(screen.getByText('Quantity is 2')).toBeInTheDocument()
-    })
-
-    it('deletes from cart', async () => {
-        await waitFor(() => {
-            expect(screen.getByText('Loading finished')).toBeInTheDocument()
-        })
-
-        const addToCartButton = screen.getByText('Add to cart');
-        const incrementButton = screen.getByText('+');
         fireEvent.click(incrementButton)
         fireEvent.click(addToCartButton)
-
-        expect(screen.getByText('Cart')).toBeInTheDocument()
-        expect(screen.getByText('Product ID is 1')).toBeInTheDocument()
-        expect(screen.getByText('Quantity is 1')).toBeInTheDocument()
-
-        fireEvent.click(addToCartButton)
-        expect(screen.getByText('Quantity is 2')).toBeInTheDocument()
+        expect(screen.getByText('Quantity is 3')).toBeInTheDocument()
 
         const deleteFromCartButton = screen.getByText('Delete from cart');
         fireEvent.click(deleteFromCartButton)
 
-        expect(screen.queryByText('Quantity is 1')).toBeNull()
+        expect(screen.queryByRole('show-quantity')).toBeNull()
+
+        fireEvent.click(addToCartButton)
+        expect(screen.getByText('Product ID is 1')).toBeInTheDocument()
+        expect(screen.getByText('Quantity is 2')).toBeInTheDocument()
+    })
+
+    it('does not add to cart when quantity is 0', async () => {
+        await waitFor(() => {
+            expect(screen.getByText('Loading finished')).toBeInTheDocument()
+        })
+
+        const addToCartButton = screen.getByText('Add to cart');
+        const incrementButton = screen.getByText('+');
+        fireEvent.click(incrementButton)
+        fireEvent.click(addToCartButton)
+
+        expect(screen.getByText('Cart')).toBeInTheDocument()
+        expect(screen.getByText('Product ID is 1')).toBeInTheDocument()
+        expect(screen.getByText('Quantity is 1')).toBeInTheDocument()
+
+        const deleteFromCartButton = screen.getByText('Delete from cart');
+        fireEvent.click(deleteFromCartButton)
+
+        expect(screen.queryByRole('show-quantity')).toBeNull()
+
+        const decrementButton = screen.getByText('-');
+        fireEvent.click(decrementButton)
+        fireEvent.click(addToCartButton)
+
+        expect(screen.queryByRole('show-quantity')).toBeNull()
     })
 
 })
