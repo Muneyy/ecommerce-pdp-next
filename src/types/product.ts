@@ -1,21 +1,22 @@
-export interface ProductType {
-    id: number;
-    company: string;
-    title: string;
-    description: string;
-    price: number;
-    discount: number;
-    imageLinks: string[];
-    thumbnailImage: string;
+type ImageLinkType = {
+    link: string,
+    altText: string
 }
 
-export interface CartProductType {
+type BaseProductType = {
     id: number;
     company: string;
     title: string;
     description: string;
     price: number;
     discount: number;
+    thumbnailImage: ImageLinkType;
+}
+
+export type ProductType = BaseProductType &{
+    imageLinks: ImageLinkType[]
+}
+
+export type CartProductType = BaseProductType & {
     quantity: number;
-    thumbnailImage: string;
 }

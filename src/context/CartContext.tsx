@@ -1,7 +1,7 @@
 'use client';
 
 import { CartProductType, ProductType } from "@/types/product";
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, ReactNode, useMemo, useCallback } from "react";
 
 type CartContextType = {
     productList: ProductType[];
@@ -23,29 +23,32 @@ export default function CartProvider({ children } : {
     const [productList, setProductList] = useState<ProductType[]>([]);
     const [cart, setCart] = useState<CartProductType[]>([]);
 
-    function addToCart (product: CartProductType) {
-        const index =  cart.findIndex((item) => item.id === product.id)
+    const addToCart = useCallback((product: CartProductType) => {
+        setCart((prevCart) => {
+            const index =  prevCart.findIndex((item) => item.id === product.id)
 
-        if (index !== -1) {
-            const tempCart = [...cart];
-            tempCart[index].quantity += product.quantity
-            setCart(tempCart);
-            return;
-        }
-        else {
-            setCart([...cart, product]);
-            return;
-        }
-    }
+            if (index !== -1) {
+                const tempCart = [...prevCart];
+                tempCart[index].quantity += product.quantity
+                return tempCart;
+            }
+            return [...prevCart, product];
+        })
+    }, [])
 
-    function deleteFromCart (id: number) {
+    const deleteFromCart = useCallback((id: number) => {
         setCart((prevCart) => {
             return [...prevCart.filter((product) => product.id !== id)]
         });
-    }
+    }, [])
+
+    const value = useMemo(() => ({productList, cart, addToCart, deleteFromCart}), [productList, cart, addToCart, deleteFromCart]);
 
     return (
-        <CartContext.Provider value={{productList, cart, addToCart, deleteFromCart}}>
+        // <CartContext.Provider value={{productList, cart, addToCart, deleteFromCart}}>
+        <CartContext.Provider 
+        value={value}
+        >
             {children}
         </CartContext.Provider>
     );

@@ -19,7 +19,7 @@ export function makeServer() {
 
       this.get("/products", (schema) => {
         return [
-        { 
+          { 
             id: 1,
             company: 'Sneaker Company',
             title: 'Fall Limited Edition Sneakers',
@@ -27,18 +27,18 @@ export function makeServer() {
             price: 250,
             discount: 0.5,
             imageLinks: [
-                imageProduct1,
-                imageProduct2,
-                imageProduct3,
-                imageProduct4,
-                imageProduct1Thumbnail,
-                imageProduct2Thumbnail,
-                imageProduct3Thumbnail,
-                imageProduct4Thumbnail,
+              { link: imageProduct1, altText: 'Image 1' },
+              { link: imageProduct2, altText: 'Image 2' },
+              { link: imageProduct3, altText: 'Image 3' },
+              { link: imageProduct4, altText: 'Image 4' },
+              { link: imageProduct1Thumbnail, altText: 'Thumbnail Image 1' },
+              { link: imageProduct2Thumbnail, altText: 'Thumbnail Image 2' },
+              { link: imageProduct3Thumbnail, altText: 'Thumbnail Image 3' },
+              { link: imageProduct4Thumbnail, altText: 'Thumbnail Image 4' },
             ],
-            thumbnailImage: imageProduct1Thumbnail,
-        },
-    ]
+            thumbnailImage: { link: imageProduct1Thumbnail, altText: 'Thumbnail Image 1' },
+          },
+        ]
       })
     },
   })

@@ -1,11 +1,9 @@
 import '@testing-library/jest-dom'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import Home from '../app/page'
 import { useContext, useEffect, useState } from 'react'
 import Image from 'next/image';
 import { ProductType } from '@/types/product';
 import { makeServer } from '@/mirage/mirage';
-import { serverHooks } from 'next/dist/server/app-render/entry-base';
 import CartProvider, { CartContext } from '@/context/CartContext';
 
 function TestComponent () {
@@ -49,29 +47,30 @@ function TestComponent () {
         deleteFromCart(product.id);
     }
 
-    if (isLoading) return (<p>TestComponent is loading...</p>)
+    if (isLoading) return (<p data-testid="loading">TestComponent is loading...</p>)
 
     return (
         <div>
-            <h1>Loading finished</h1>
+            <h1 data-testid="loading-finished">Loading finished</h1>
             <div>
-                <p>{fetchedData[0].company}</p>
-                <button onClick={handleIncrement}>+</button>
-                <button onClick={handleDecrement}>-</button>
-                <button onClick={handleAddToCart}>Add to cart</button>
-                <button onClick={handleDeleteFromCart}>Delete from cart</button>
+                <p data-testid='company-name'>{fetchedData[0].company}</p>
+                <button onClick={handleIncrement} data-testid="increment-button">+</button>
+                <button onClick={handleDecrement} data-testid="decrement-button">-</button>
+                <button onClick={handleAddToCart} data-testid="add-to-cart-button">Add to cart</button>
+                <button onClick={handleDeleteFromCart} data-testid="delete-from-cart-button">Delete from cart</button>
                 <Image 
-                src={fetchedData[0].thumbnailImage} 
+                src={fetchedData[0].thumbnailImage.link} 
                 alt="thumbnail image"
                 />
-                <p id="quantity-holder">{quantity}</p>
+                <p data-testid="quantity-holder">{quantity}</p>
             </div>
             {
                 cart.length > 0 && (
-                <div className='cart'>
+                <div className='cart' data-testid='cart-view'>
                     <h2>Cart</h2>
-                    <p id='cart-id'>Product ID is {cart[0].id}</p>
-                    <p id='cart-quantity' role="show-quantity">Quantity is {cart[0].quantity}</p>
+                    <p data-testid='cart-product-id'>{cart[0].id}</p>
+                    <p data-testid='cart-product-title'>{cart[0].title}</p>
+                    <p data-testid='cart-product-quantity'>{cart[0].quantity}</p>
                 </div>
                 )
             }
@@ -97,15 +96,16 @@ describe('Test', () => {
 
     it('fetches from API', async () => {
         await waitFor(() => {
-            expect(screen.getByText('Loading finished')).toBeInTheDocument()
+            expect(screen.getByTestId('loading-finished')).toBeInTheDocument()
         })
 
-        expect(screen.getByText("Sneaker Company")).toBeInTheDocument()
+        expect(screen.getByTestId("company-name").textContent).toEqual('Sneaker Company')
     })
 
     it('images are correctly imported in mirage', async () => {
         // Wait for the images to be loaded
         await waitFor(() => {
+            expect(screen.getByTestId('loading-finished')).toBeInTheDocument()
             expect(screen.getByAltText('thumbnail image')).toBeInTheDocument()
             const imgElement = screen.getByAltText('thumbnail image') as HTMLImageElement;
             return imgElement && imgElement.complete;
@@ -116,86 +116,95 @@ describe('Test', () => {
         expect(image.srcset).toContain('/_next/image?url')
     })
 
+
     it('quantity is incremented/decremented', async () => {
         await waitFor(() => {
-            expect(screen.getByText('Loading finished')).toBeInTheDocument()
-        })
+            expect(screen.getByTestId('loading-finished')).toBeInTheDocument();
+        });
 
-        const incrementButton = screen.getByText('+');
-        const decrementButton = screen.getByText('-');
-        const quantityHolder = screen.getByText('0');
+        const incrementButton = screen.getByTestId('increment-button');
+        const decrementButton = screen.getByTestId('decrement-button');
+        const quantityHolder = screen.getByTestId('quantity-holder');
 
         expect(quantityHolder).toBeInTheDocument();
         expect(quantityHolder.textContent).toBe('0');
 
-        fireEvent.click(incrementButton)
+        fireEvent.click(incrementButton);
         expect(quantityHolder.textContent).toBe('1');
 
-        fireEvent.click(incrementButton)
+        fireEvent.click(incrementButton);
         expect(quantityHolder.textContent).toBe('2');
 
-        fireEvent.click(decrementButton)
+        fireEvent.click(incrementButton);
+        expect(quantityHolder.textContent).toBe('3');
+
+        fireEvent.click(decrementButton);
+        expect(quantityHolder.textContent).toBe('2');
+
+        fireEvent.click(decrementButton);
         expect(quantityHolder.textContent).toBe('1');
 
-        fireEvent.click(decrementButton)
+        fireEvent.click(decrementButton);
         expect(quantityHolder.textContent).toBe('0');
 
-        fireEvent.click(decrementButton)
+        fireEvent.click(decrementButton);
         expect(quantityHolder.textContent).toBe('0');
-    })
+    });
+
 
     it('adds/deletes to/from cart', async () => {
         await waitFor(() => {
-            expect(screen.getByText('Loading finished')).toBeInTheDocument()
+            expect(screen.getByTestId('loading-finished')).toBeInTheDocument();
         })
 
-        const addToCartButton = screen.getByText('Add to cart');
-        const incrementButton = screen.getByText('+');
-        fireEvent.click(incrementButton)
-        fireEvent.click(addToCartButton)
-
-        expect(screen.getByText('Cart')).toBeInTheDocument()
-        expect(screen.getByText('Product ID is 1')).toBeInTheDocument()
-        expect(screen.getByText('Quantity is 1')).toBeInTheDocument()
+        const incrementButton = screen.getByTestId('increment-button');
+        const decrementButton = screen.getByTestId('decrement-button');
+        const addToCartButton = screen.getByTestId('add-to-cart-button');
+        const deleteFromCartButton = screen.getByTestId('delete-from-cart-button');
 
         fireEvent.click(incrementButton)
         fireEvent.click(addToCartButton)
-        expect(screen.getByText('Quantity is 3')).toBeInTheDocument()
+        expect(screen.getByTestId('cart-view')).toBeInTheDocument()
+        expect(screen.getByTestId('cart-product-id').textContent).toEqual('1') 
+        expect(screen.getByTestId('cart-product-quantity').textContent).toEqual('1') 
 
-        const deleteFromCartButton = screen.getByText('Delete from cart');
+        fireEvent.click(incrementButton)
+        fireEvent.click(addToCartButton)
+        expect(screen.getByTestId('cart-product-quantity').textContent).toEqual('3') 
+
         fireEvent.click(deleteFromCartButton)
-
-        expect(screen.queryByRole('show-quantity')).toBeNull()
+        expect(screen.queryByTestId('cart-view')).toBeNull()
 
         fireEvent.click(addToCartButton)
-        expect(screen.getByText('Product ID is 1')).toBeInTheDocument()
-        expect(screen.getByText('Quantity is 2')).toBeInTheDocument()
+        expect(screen.getByTestId('cart-product-id').textContent).toEqual('1') 
+        expect(screen.getByTestId('cart-product-quantity').textContent).toEqual('2') 
     })
 
     it('does not add to cart when quantity is 0', async () => {
         await waitFor(() => {
-            expect(screen.getByText('Loading finished')).toBeInTheDocument()
+            expect(screen.getByTestId('loading-finished')).toBeInTheDocument();
         })
 
-        const addToCartButton = screen.getByText('Add to cart');
-        const incrementButton = screen.getByText('+');
+        const incrementButton = screen.getByTestId('increment-button');
+        const decrementButton = screen.getByTestId('decrement-button');
+        const addToCartButton = screen.getByTestId('add-to-cart-button');
+        const deleteFromCartButton = screen.getByTestId('delete-from-cart-button');
+
         fireEvent.click(incrementButton)
         fireEvent.click(addToCartButton)
 
-        expect(screen.getByText('Cart')).toBeInTheDocument()
-        expect(screen.getByText('Product ID is 1')).toBeInTheDocument()
-        expect(screen.getByText('Quantity is 1')).toBeInTheDocument()
+        expect(screen.getByTestId('cart-view')).toBeInTheDocument()
+        expect(screen.getByTestId('cart-product-id').textContent).toEqual('1') 
+        expect(screen.getByTestId('cart-product-quantity').textContent).toEqual('1') 
 
-        const deleteFromCartButton = screen.getByText('Delete from cart');
         fireEvent.click(deleteFromCartButton)
 
-        expect(screen.queryByRole('show-quantity')).toBeNull()
+        expect(screen.queryByTestId('cart-view')).toBeNull()
 
-        const decrementButton = screen.getByText('-');
         fireEvent.click(decrementButton)
         fireEvent.click(addToCartButton)
 
-        expect(screen.queryByRole('show-quantity')).toBeNull()
+        expect(screen.queryByTestId('cart-view')).toBeNull()
     })
 
 })
