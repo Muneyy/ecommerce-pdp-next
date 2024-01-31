@@ -45,7 +45,6 @@ export default function CartProvider({ children } : {
     const value = useMemo(() => ({productList, cart, addToCart, deleteFromCart}), [productList, cart, addToCart, deleteFromCart]);
 
     return (
-        // <CartContext.Provider value={{productList, cart, addToCart, deleteFromCart}}>
         <CartContext.Provider 
         value={value}
         >

@@ -27,16 +27,17 @@ export function makeServer() {
             price: 250,
             discount: 0.5,
             imageLinks: [
-              { link: imageProduct1, altText: 'Image 1' },
-              { link: imageProduct2, altText: 'Image 2' },
-              { link: imageProduct3, altText: 'Image 3' },
-              { link: imageProduct4, altText: 'Image 4' },
-              { link: imageProduct1Thumbnail, altText: 'Thumbnail Image 1' },
-              { link: imageProduct2Thumbnail, altText: 'Thumbnail Image 2' },
-              { link: imageProduct3Thumbnail, altText: 'Thumbnail Image 3' },
-              { link: imageProduct4Thumbnail, altText: 'Thumbnail Image 4' },
+              { link: imageProduct1, altText: 'A pair of white, orange, and brown sneakers on an orange background.' },
+              { link: imageProduct2, altText: 'A pair of white, orange, and brown sneakers on an orange background with one shoe (side view) on top of two white pebbles and a branch in front' },
+              { link: imageProduct3, altText: 'One shoe is placed on top of two white pebbles that are sandwiching the orange background that is folded like cloth' },
+              { link: imageProduct4, altText: 'A seemingly floating shoe with its heel placed on top of two pebbles stacked together on an orange background' },
+              
+              { link: imageProduct1Thumbnail, altText: 'A pair of white, orange, and brown sneakers on an orange background.' },
+              { link: imageProduct2Thumbnail, altText: 'A pair of white, orange, and brown sneakers on an orange background with one shoe showing its right side on top of two white pebbles and a branch in front' },
+              { link: imageProduct3Thumbnail, altText: 'One shoe is placed on top of two white pebbles that are sandwiching the orange background that is folded like cloth' },
+              { link: imageProduct4Thumbnail, altText: 'A seemingly floating shoe with its heel placed on top of two pebbles stacked together on an orange background' },
             ],
-            thumbnailImage: { link: imageProduct1Thumbnail, altText: 'Thumbnail Image 1' },
+            thumbnailImage: { link: imageProduct1Thumbnail, altText: 'A pair of white, orange, and brown sneakers on an orange background.' },
           },
         ]
       })
