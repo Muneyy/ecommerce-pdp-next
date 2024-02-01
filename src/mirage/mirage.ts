@@ -48,7 +48,8 @@ export function makeServer() {
                 altText:
                   "A seemingly floating shoe with its heel placed on top of two pebbles stacked together on an orange background",
               },
-
+            ],
+            thumbnailImageLinks: [
               {
                 link: imageProduct1Thumbnail,
                 altText:
@@ -70,11 +71,6 @@ export function makeServer() {
                   "A seemingly floating shoe with its heel placed on top of two pebbles stacked together on an orange background",
               },
             ],
-            thumbnailImage: {
-              link: imageProduct1Thumbnail,
-              altText:
-                "A pair of white, orange, and brown sneakers on an orange background.",
-            },
           },
         ];
       });

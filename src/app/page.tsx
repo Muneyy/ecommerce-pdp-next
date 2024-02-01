@@ -6,6 +6,7 @@ import CartProvider from "@/context/CartContext";
 import { makeServer } from "@/mirage/mirage";
 import { useCallback, useState, useMemo } from "react";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import ProductImages from "@/components/ProductImages/ProductImages";
 
 makeServer();
 
@@ -25,13 +26,13 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
+      {showSidebar && (
+        <div className={styles.overlay} onClick={toggleSidebar}></div>
+      )}
+      <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
       <CartProvider>
-        {showSidebar && (
-          <div className={styles.overlay} onClick={toggleSidebar}></div>
-        )}
-        <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
-
         {memoizedHeader}
+        <ProductImages />
       </CartProvider>
     </main>
   );
