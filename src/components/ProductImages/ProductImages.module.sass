@@ -1,22 +1,26 @@
 .sliderContainer
     display: flex
     overflow-x: hidden
-    max-width: 100%
+    max-width: 375px
     position: relative
-    @media screen and (min-width: 425px)
-        max-width: 425px
+    button
+        cursor: pointer
+        display: flex
+        align-items: center
+        justify-content: center
+        position: absolute
+        border-radius: 50%
+        background-color: var(--light-grayish-blue)
+        z-index: 1
+        top: 130px
+        height: 40px
+        width: 40px
         
+.carousel
+    display: flex
+    flex-direction: row
 
 .nextButton
-    display: flex
-    align-items: center
-    justify-content: center
-    position: absolute
-    border-radius: 50%
-    background-color: var(--light-grayish-blue)
-    top: 130px
-    height: 40px
-    width: 40px
     right: 17px
 
 .prevButton
@@ -26,12 +30,7 @@
     position: absolute
     border-radius: 50%
     background-color: var(--light-grayish-blue)
-    top: 50%
-    height: 30px
-    width: 30px
-    position: absolute
-    border-radius: 50%
-    background-color: var(--light-grayish-blue)
+    z-index: 1
     top: 130px
     height: 40px
     width: 40px
@@ -39,6 +38,10 @@
     padding-left: 2px
 
 .productImage
-    width: 100vw
+    width: 375px
     height: 300px
     object-fit: cover
+
+.productImageContainer
+    width: 375px
+    overflow-x: hidden
