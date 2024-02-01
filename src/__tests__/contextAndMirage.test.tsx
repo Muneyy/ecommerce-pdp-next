@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import { ProductType } from "@/types/product";
-import { makeServer } from "@/mirage/mirage";
+import { Server } from "miragejs";
+import { ProductType } from "@/types/productTypes";
+import makeServer from "@/mirage/mirage";
 import CartProvider, { CartContext } from "@/context/CartContext";
 
 function TestComponent() {
@@ -38,7 +40,7 @@ function TestComponent() {
     const product = fetchedData[0];
     if (quantity <= 0) return;
 
-    addToCart({ ...product, quantity: quantity });
+    addToCart({ ...product, quantity });
   }
 
   async function handleDeleteFromCart() {
@@ -82,7 +84,10 @@ function TestComponent() {
         >
           Delete from cart
         </button>
-        <Image src={fetchedData[0].thumbnailImage.link} alt="thumbnail image" />
+        <Image
+          src={fetchedData[0].thumbnailImageLinks[0].link}
+          alt="thumbnail image"
+        />
         <p data-testid="quantity-holder">{quantity}</p>
       </div>
       {cart.length > 0 && (
@@ -98,7 +103,7 @@ function TestComponent() {
 }
 
 describe("Test", () => {
-  let mirageServer: any;
+  let mirageServer: Server;
   beforeEach(() => {
     mirageServer = makeServer();
     render(
@@ -178,7 +183,6 @@ describe("Test", () => {
     });
 
     const incrementButton = screen.getByTestId("increment-button");
-    const decrementButton = screen.getByTestId("decrement-button");
     const addToCartButton = screen.getByTestId("add-to-cart-button");
     const deleteFromCartButton = screen.getByTestId("delete-from-cart-button");
 

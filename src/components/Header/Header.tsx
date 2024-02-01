@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import avatarPng from "@/assets/images/image-avatar.png";
 import styles from "./Header.module.sass";
-import Image from "next/image";
 import { CartSvg, LogoSvg, MenuSvg } from "@/assets/svgs/SvgComponents";
 
 export default function Header({

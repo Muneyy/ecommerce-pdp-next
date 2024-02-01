@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
+
 "use client";
 
-import { CartProductType, ProductType } from "@/types/product";
 import {
   createContext,
   useState,
@@ -8,6 +10,7 @@ import {
   useMemo,
   useCallback,
 } from "react";
+import { CartProductType, ProductType } from "@/types/productTypes";
 
 type CartContextType = {
   productList: ProductType[];
@@ -34,7 +37,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       if (index !== -1) {
         const tempCart = [...prevCart];
         tempCart[index].quantity += product.quantity;
-        return tempCart;
+        return [...tempCart];
       }
       return [...prevCart, product];
     });
@@ -47,7 +50,12 @@ export default function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ productList, cart, addToCart, deleteFromCart }),
+    () => ({
+      productList,
+      cart,
+      addToCart,
+      deleteFromCart,
+    }),
     [productList, cart, addToCart, deleteFromCart],
   );
 
