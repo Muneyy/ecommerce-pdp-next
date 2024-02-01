@@ -2,7 +2,43 @@
     display: flex
     overflow-x: hidden
     max-width: 100%
+    position: relative
+    @media screen and (min-width: 425px)
+        max-width: 425px
+        
+
+.nextButton
+    display: flex
+    align-items: center
+    justify-content: center
+    position: absolute
+    border-radius: 50%
+    background-color: var(--light-grayish-blue)
+    top: 130px
+    height: 40px
+    width: 40px
+    right: 17px
+
+.prevButton
+    display: flex
+    align-items: center
+    justify-content: center
+    position: absolute
+    border-radius: 50%
+    background-color: var(--light-grayish-blue)
+    top: 50%
+    height: 30px
+    width: 30px
+    position: absolute
+    border-radius: 50%
+    background-color: var(--light-grayish-blue)
+    top: 130px
+    height: 40px
+    width: 40px
+    left: 17px
+    padding-left: 2px
 
 .productImage
     width: 100vw
     height: 300px
+    object-fit: cover

@@ -69,7 +69,10 @@ function TestComponent() {
         >
           Delete from cart
         </button>
-        <Image src={fetchedData[0].thumbnailImageLinks[0].link} alt="thumbnail image" />
+        <Image
+          src={fetchedData[0].thumbnailImageLinks[0].link}
+          alt="thumbnail image"
+        />
         <p data-testid="quantity-holder">{quantity}</p>
       </div>
       {cart.length > 0 && (
