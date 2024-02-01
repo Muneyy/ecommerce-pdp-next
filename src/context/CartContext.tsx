@@ -1,4 +1,4 @@
-// "use client"
+"use client";
 
 import { CartProductType, ProductType } from "@/types/product";
 import {
