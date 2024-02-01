@@ -8,6 +8,8 @@
     background-color: var(--white)
     width: 250px
     height: 100vh
+    transition: transform 0.2s ease-in-out
+    transform: translateX(-100%)
     button
         padding: 0
     ul
@@ -22,6 +24,9 @@
             text-decoration: none
             &:hover
                 color: var(--orange)
+
+.active
+    transform: translateX(0)
 
 .closeButton
     cursor: pointer

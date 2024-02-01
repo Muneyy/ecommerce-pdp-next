@@ -3,12 +3,16 @@
 import styles from "./Sidebar.module.sass";
 
 export default function Sidebar({
+  showSidebar,
   toggleSidebar,
 }: {
+  showSidebar: boolean;
   toggleSidebar: () => void;
 }) {
   return (
-    <aside className={styles.sidebar}>
+    <aside
+      className={`${styles.sidebar} ${showSidebar ? styles.active : null}`}
+    >
       <nav>
         <ul>
           <button onClick={toggleSidebar} className={styles.closeButton}>

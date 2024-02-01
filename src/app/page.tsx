@@ -27,11 +27,10 @@ export default function Home() {
     <main className={styles.main}>
       <CartProvider>
         {showSidebar && (
-          <>
-            <Sidebar toggleSidebar={toggleSidebar} />
-            <div className={styles.overlay} onClick={toggleSidebar}></div>
-          </>
+          <div className={styles.overlay} onClick={toggleSidebar}></div>
         )}
+        <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
+
         {memoizedHeader}
       </CartProvider>
     </main>
