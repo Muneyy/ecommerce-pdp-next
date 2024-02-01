@@ -1,0 +1,28 @@
+.carousel
+    display: flex
+    flex-direction: row
+    
+.productImage
+    object-fit: cover
+    width: 100vw
+    height: calc(100vw * 0.80)
+    cursor: pointer
+    @media screen and (min-width: 768px)
+        border-radius: 10px
+        width: max(100%, 445px)
+        height: inherit
+
+.imagesContainer
+    width: auto
+    @media screen and (min-width: 768px)
+        width: 445px
+        overflow-x: hidden  
+
+.lightboxImagesContainer
+    overflow: hidden
+    @media screen and (min-width: 768px)
+        width: 550px
+        overflow-x: hidden
+        > div > img 
+            height: 550px
+            width: 550px

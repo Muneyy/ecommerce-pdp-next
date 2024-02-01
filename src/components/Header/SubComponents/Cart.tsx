@@ -15,9 +15,10 @@ export default function Cart({ buttonRef, setIsCartShown } : {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const isOutsideClicked = cartRef.current
-        && !(cartRef.current as HTMLElement).contains(event.target as Node);
+                        && !(cartRef.current as HTMLElement).contains(event.target as Node);
       const isButtonClicked = buttonRef.current
-        && (buttonRef.current as HTMLButtonElement).contains(event.target as Node);
+                        && (buttonRef.current as HTMLButtonElement).contains(event.target as Node);
+
       // if button is clicked (which is also outside of cart), do nothing
       if (isOutsideClicked && isButtonClicked) {
         return;
@@ -27,11 +28,12 @@ export default function Cart({ buttonRef, setIsCartShown } : {
         setIsCartShown(false);
       }
     };
+
     // Bind the event listener
-    document.addEventListener("mouseup", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
       // Unbind the event listener on clean up
-      document.removeEventListener("mouseup", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [cartRef, buttonRef, setIsCartShown]);
 

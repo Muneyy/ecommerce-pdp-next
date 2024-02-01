@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { ImageLinkType } from "@/types/productTypes";
 import styles from "./ProductImages.module.sass";
-import { NextImageSvg, PrevImageSvg } from "@/assets/svgs/SvgComponents";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import ImageCarousel from "./Subcomponents/ImageCarousel";
+import Lightbox from "./Subcomponents/Lightbox";
+import NextButton from "./Subcomponents/NextButton";
+import PrevButton from "./Subcomponents/PrevButton";
+import ThumbnailImages from "./Subcomponents/ThumbnailImages";
 
-export default function ProductImages() {
+export default function ProductImages({ isLightbox, setShowLightbox } : {
+  isLightbox: boolean;
+  setShowLightbox: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [imageLinks, setImageLinks] = useState<ImageLinkType[]>([]);
+  const [thumbnailImageLinks, setThumbnailImageLinks] = useState<ImageLinkType[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
   useEffect(() => {
     async function fetchImages() {
@@ -14,6 +24,7 @@ export default function ProductImages() {
         const response = await fetch("/api/products");
         const data = await response.json();
         setImageLinks(data[0].imageLinks);
+        setThumbnailImageLinks(data[0].thumbnailImageLinks);
       } catch (error) {
         console.error(error);
       }
@@ -22,60 +33,56 @@ export default function ProductImages() {
     fetchImages();
   }, []);
 
-  const handleNextClick = () => {
-    setCurrentIndex((prev) => (prev < 3 ? prev + 1 : prev));
-  };
-
-  const handlePrevClick = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev));
-  };
-
-  function handleKeyboardNavigation(e: React.KeyboardEvent<HTMLButtonElement>) {
-    if (e.key === "ArrowRight") {
-      handleNextClick();
-    } else if (e.key === "ArrowLeft") {
-      handlePrevClick();
-    }
+  // Return lightbox component
+  if (isLightbox) {
+    return (
+      <Lightbox
+        setShowLightbox={setShowLightbox}
+        setCurrentIndex={setCurrentIndex}
+        isDesktop={isDesktop}
+        currentIndex={currentIndex}
+        imageLinks={imageLinks}
+        thumbnailImageLinks={thumbnailImageLinks}
+      />
+    );
   }
 
+  if (isDesktop) {
+    return (
+      <section className={styles.desktopProductImages}>
+        <button
+          type="button"
+          aria-label="Show lightbox display"
+          onClick={() => setShowLightbox(true)}
+          className={styles.desktopLightboxButton}
+        >
+          <ImageCarousel
+            isLightbox={false}
+            isDesktop
+            currentIndex={currentIndex}
+            imageLinks={imageLinks}
+          />
+        </button>
+        <ThumbnailImages
+          thumbnailImageLinks={thumbnailImageLinks}
+          currentIndex={currentIndex}
+          setCurrentIndex={setCurrentIndex}
+        />
+      </section>
+    );
+  }
+
+  // return mobile view as default
   return (
     <section className={styles.sliderContainer}>
-      <button
-        type="button"
-        aria-label="Go to previous image"
-        onKeyDown={handleKeyboardNavigation}
-        onClick={handlePrevClick}
-        className={styles.prevButton}
-      >
-        <PrevImageSvg />
-      </button>
-      <button
-        type="button"
-        aria-label="Go to next image"
-        onKeyDown={handleKeyboardNavigation}
-        onClick={handleNextClick}
-        className={styles.nextButton}
-      >
-        <NextImageSvg />
-      </button>
-      <div
-        className={styles.carousel}
-        style={{
-          transform: `translateX(-${(currentIndex * 100) / 4}%)`,
-          transition: "transform 0.2s ease-in-out",
-        }}
-      >
-        {imageLinks.map((image) => (
-          <div className={styles.productImageContainer} key={image.altText}>
-            <Image
-              className={styles.productImage}
-              src={image.link}
-              alt={image.altText}
-              placeholder="blur"
-            />
-          </div>
-        ))}
-      </div>
+      <PrevButton setCurrentIndex={setCurrentIndex} />
+      <NextButton setCurrentIndex={setCurrentIndex} />
+      <ImageCarousel
+        isLightbox={false}
+        isDesktop={isDesktop}
+        currentIndex={currentIndex}
+        imageLinks={imageLinks}
+      />
     </section>
   );
 }
