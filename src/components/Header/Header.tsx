@@ -12,10 +12,7 @@ export default function Header({
 }) {
   return (
     <header className={styles.header}>
-      <section
-        aria-label="Contains hamburger menu icon to toggle sidebar"
-        className={styles.headerLeftSide}
-      >
+      <section className={styles.headerLeftSide}>
         <button
           aria-label="Toggle sidebar menu"
           type="button"
@@ -26,13 +23,10 @@ export default function Header({
         </button>
       </section>
       <section className={styles.headerRightSide}>
-        <div aria-label="Contains company logo" className="logo">
+        <a aria-label="Link to homepage" className="logo" href="#">
           <LogoSvg />
-        </div>
-        <div
-          aria-label="Contains shopping cart and user icons"
-          className={styles.userAndAvatar}
-        >
+        </a>
+        <div className={styles.userAndAvatar}>
           <button
             type="button"
             className={styles.cartButton}
