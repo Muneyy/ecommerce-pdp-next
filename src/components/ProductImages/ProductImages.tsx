@@ -13,6 +13,14 @@ export default function ProductImages() {
       .then((data) => setImageLinks(data[0].imageLinks));
   }, []);
 
+  function handleKeyboardNavigation (e: React.KeyboardEvent<HTMLButtonElement>) {
+    if (e.key === "ArrowRight") {
+      handleNextClick();
+    } else if (e.key === "ArrowLeft") {
+      handlePrevClick();
+    }
+  }
+
   const handleNextClick = () => {
     setCurrentIndex((prev) => prev < 3 ? prev + 1 : prev);
   }
@@ -23,7 +31,7 @@ export default function ProductImages() {
 
   return (
     <section className={styles.sliderContainer}>
-      <button onClick={handlePrevClick} className={styles.prevButton}>
+      <button onKeyDown={handleKeyboardNavigation} onClick={handlePrevClick} className={styles.prevButton}>
         <svg width="12" height="18" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M11 1 3 9l8 8"
@@ -34,7 +42,7 @@ export default function ProductImages() {
           />
         </svg>
       </button>
-      <button onClick={handleNextClick} className={styles.nextButton}>
+      <button onKeyDown={handleKeyboardNavigation} onClick={handleNextClick} className={styles.nextButton}>
         <svg width="13" height="18" xmlns="http://www.w3.org/2000/svg">
           <path
             d="m2 1 8 8-8 8"
@@ -45,16 +53,16 @@ export default function ProductImages() {
           />
         </svg>
       </button>
-      <div className={styles.carousel}>
+      <div className={styles.carousel}
+        style={{
+          transform: `translateX(-${(currentIndex * 100/4)}%)`,
+          transition: "transform 0.2s ease-in-out"
+        }}>
         {imageLinks.map((image) => {
           return (
             <div 
               className={styles.productImageContainer} 
-              key={image.link}
-              style={{
-                transform: `translateX(-${currentIndex * 100}%)`,
-                transition: "transform 0.2s ease-in-out"
-              }}
+              key={image.altText}
             >
               <Image
                 className={styles.productImage}
