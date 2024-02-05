@@ -1,0 +1,37 @@
+.sidebar
+    display: flex
+    flex-direction: column
+    position: absolute
+    padding: 24px 0 24px 24px
+    padding-bottom: 0px
+    z-index: 3
+    background-color: var(--white)
+    width: 250px
+    height: 100vh
+    transition: transform 0.2s ease-in-out
+    transform: translateX(-100%)
+    button
+        padding: 0
+    ul
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        font-weight: 700
+        font-size: 1.125rem
+        li
+            padding: 9px 0
+        a
+            color: var(--very-dark-blue)
+            text-decoration: none
+            &:hover
+                color: var(--orange)
+
+.active
+    transform: translateX(0)
+
+.closeButton
+    cursor: pointer
+    margin-bottom: 37px
+    &:hover
+        svg path 
+            fill: var(--orange)

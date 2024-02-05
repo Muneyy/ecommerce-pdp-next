@@ -54,16 +54,29 @@ function TestComponent() {
       <h1 data-testid="loading-finished">Loading finished</h1>
       <div>
         <p data-testid="company-name">{fetchedData[0].company}</p>
-        <button onClick={handleIncrement} data-testid="increment-button">
+        <button
+          type="button"
+          onClick={handleIncrement}
+          data-testid="increment-button"
+        >
           +
         </button>
-        <button onClick={handleDecrement} data-testid="decrement-button">
+        <button
+          type="button"
+          onClick={handleDecrement}
+          data-testid="decrement-button"
+        >
           -
         </button>
-        <button onClick={handleAddToCart} data-testid="add-to-cart-button">
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          data-testid="add-to-cart-button"
+        >
           Add to cart
         </button>
         <button
+          type="button"
           onClick={handleDeleteFromCart}
           data-testid="delete-from-cart-button"
         >
