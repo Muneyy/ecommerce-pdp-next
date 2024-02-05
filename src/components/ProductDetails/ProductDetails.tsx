@@ -12,7 +12,7 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(0);
   const [initialClick, setInitialClick] = useState(false);
 
-  const { cart, addToCart } = useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -87,11 +87,6 @@ export default function ProductDetails() {
                 {discount * 100}
                 %
               </span>
-              {/* DELETE THIS - TEMP CODE FOR DEBUGGING */}
-              {cart.length > 0 ? (
-                <span className={styles.discount}>{cart[0].quantity}</span>
-              ) : null}
-              {/* DELETE THIS - TEMP CODE FOR DEBUGGING */}
             </div>
             <span className={styles.originalPrice}>
               $
