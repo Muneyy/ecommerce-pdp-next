@@ -1,3 +1,6 @@
+// type CartContextType and CartContext are
+// expecting the product and id inputs to be used
+// inside the function
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 
@@ -10,24 +13,21 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import { CartProductType, ProductType } from "@/types/productTypes";
+import { CartProductType } from "@/types/productTypes";
 
 type CartContextType = {
-  productList: ProductType[];
   cart: CartProductType[];
   addToCart: (product: CartProductType) => void;
   deleteFromCart: (id: number) => void;
 };
 
 export const CartContext = createContext<CartContextType>({
-  productList: [],
   cart: [],
   addToCart: (product: CartProductType) => {},
   deleteFromCart: (id: number) => {},
 });
 
 export default function CartProvider({ children }: { children: ReactNode }) {
-  const [productList, setProductList] = useState<ProductType[]>([]);
   const [cart, setCart] = useState<CartProductType[]>([]);
 
   const addToCart = useCallback((product: CartProductType) => {
@@ -51,12 +51,11 @@ export default function CartProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(
     () => ({
-      productList,
       cart,
       addToCart,
       deleteFromCart,
     }),
-    [productList, cart, addToCart, deleteFromCart],
+    [cart, addToCart, deleteFromCart],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -10,6 +10,7 @@ export default function ProductDetails() {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(0);
+  const [initialClick, setInitialClick] = useState(false);
 
   const { cart, addToCart } = useContext(CartContext);
 
@@ -29,14 +30,26 @@ export default function ProductDetails() {
   }, []);
 
   const handleIncrement = () => {
+    setInitialClick((prevState) => {
+      if (prevState === true) return false;
+      return prevState;
+    });
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
   const handleDecrement = () => {
+    setInitialClick((prevState) => {
+      if (prevState === true) return false;
+      return prevState;
+    });
     setQuantity((prevQuantity) => (prevQuantity > 0 ? prevQuantity - 1 : prevQuantity));
   };
 
   const handleAddToCart = () => {
+    setInitialClick((prevState) => {
+      if (prevState === false) return true;
+      return prevState;
+    });
     if (fetchedDetails && quantity > 0) {
       addToCart({
         ...fetchedDetails,
@@ -92,6 +105,8 @@ export default function ProductDetails() {
               type="button"
               aria-label="Decrease quantity of product to be added to cart"
               onClick={handleDecrement}
+              disabled={quantity === 0}
+              style={{ cursor: quantity === 0 ? "not-allowed" : "pointer" }}
             >
               <MinusSvg />
             </button>
@@ -104,11 +119,25 @@ export default function ProductDetails() {
               <PlusSvg />
             </button>
           </div>
+
+          <dialog
+            className={styles.dialog}
+            open={initialClick && quantity === 0}
+            aria-label="Dialog for when quantity is 0"
+          >
+            <span>!</span>
+            Quantity is set to 0. Add at least one product to add to cart.
+          </dialog>
           <button
             type="button"
             className={styles.addToCartButton}
             onClick={handleAddToCart}
             aria-label="Add specified quantity of product to cart"
+            disabled={initialClick && quantity === 0}
+            style={{
+              cursor:
+                initialClick && quantity === 0 ? "not-allowed" : "pointer",
+            }}
           >
             <AddToCartSvg />
             <span>Add to cart</span>

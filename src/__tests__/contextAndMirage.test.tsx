@@ -1,6 +1,10 @@
 /* eslint-disable no-undef */
+// Test functions such as describe, it, expect work out
+// of the box and do not need to be imported or defined
 import "@testing-library/jest-dom";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent, render, screen, waitFor,
+} from "@testing-library/react";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { Server } from "miragejs";
@@ -48,8 +52,7 @@ function TestComponent() {
     deleteFromCart(product.id);
   }
 
-  if (isLoading)
-    return <p data-testid="loading">TestComponent is loading...</p>;
+  if (isLoading) return <p data-testid="loading">TestComponent is loading...</p>;
 
   return (
     <div>
