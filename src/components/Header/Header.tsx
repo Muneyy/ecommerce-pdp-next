@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import avatarPng from "@/assets/images/image-avatar.png";
 import styles from "./Header.module.sass";
 import { CartSvg, LogoSvg, MenuSvg } from "@/assets/svgs/SvgComponents";
 import Cart from "./SubComponents/Cart";
+import { CartContext } from "@/context/CartContext";
 
 export default function Header({
   toggleSidebar,
@@ -13,6 +14,7 @@ export default function Header({
   toggleSidebar: () => void;
 }) {
   const [isCartShown, setIsCartShown] = useState<boolean>(false);
+  const { cart } = useContext(CartContext);
 
   const handleCartClick = () => {
     setIsCartShown((prevState) => !prevState);
@@ -42,6 +44,11 @@ export default function Header({
             onClick={handleCartClick}
           >
             <CartSvg />
+            {cart.length > 0 && (
+              <span className={styles.cartQuantityDisplay}>
+                {cart[0].quantity}
+              </span>
+            )}
           </button>
           <Image
             className={styles.avatar}
