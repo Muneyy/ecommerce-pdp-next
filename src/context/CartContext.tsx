@@ -35,9 +35,12 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       const index = prevCart.findIndex((item) => item.id === product.id);
 
       if (index !== -1) {
-        const tempCart = [...prevCart];
-        tempCart[index].quantity += product.quantity;
-        return [...tempCart];
+        return prevCart.map((item, i) => (i === index
+          ? {
+            ...item,
+            quantity: item.quantity + product.quantity,
+          }
+          : item));
       }
       return [...prevCart, product];
     });
