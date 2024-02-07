@@ -135,6 +135,7 @@ export default function ProductDetails() {
             }}
           >
             <AddToCartSvg />
+            {quantity > 0 ? <span>{quantity}</span> : null}
             <span>Add to cart</span>
           </button>
         </section>
