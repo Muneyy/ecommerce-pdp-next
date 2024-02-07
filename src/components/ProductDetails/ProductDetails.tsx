@@ -127,7 +127,7 @@ export default function ProductDetails() {
             type="button"
             className={styles.addToCartButton}
             onClick={handleAddToCart}
-            aria-label="Add specified quantity of product to cart"
+            aria-label={`Add ${quantity} products of ${title} to cart`}
             disabled={initialClick && quantity === 0}
             style={{
               cursor:
@@ -135,7 +135,6 @@ export default function ProductDetails() {
             }}
           >
             <AddToCartSvg />
-            {quantity > 0 ? <span>{quantity}</span> : null}
             <span>Add to cart</span>
           </button>
         </section>
