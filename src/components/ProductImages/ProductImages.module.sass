@@ -1,0 +1,35 @@
+.sliderContainer
+    display: flex
+    overflow-y: hidden
+    overflow-x: hidden
+    height: calc(100vw * 0.80)
+    position: relative
+    button
+        cursor: pointer
+        display: flex
+        align-items: center
+        justify-content: center
+        position: absolute
+        border-radius: 50%
+        background-color: var(--light-grayish-blue)
+        z-index: 1
+        top: calc(50% - 20px)
+        height: 40px
+        width: 40px
+        border: none
+            
+.carousel
+    display: flex
+    flex-direction: row
+
+.nextButton
+    right: 15px
+
+.prevButton
+    left: 15px
+    padding-left: 2px
+
+.productImage
+    object-fit: cover
+    width: 100vw
+    height: calc(100vw * 0.80)

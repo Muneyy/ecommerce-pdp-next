@@ -1,4 +1,4 @@
-type ImageLinkType = {
+export type ImageLinkType = {
   link: string;
   altText: string;
 };
@@ -10,7 +10,7 @@ type BaseProductType = {
   description: string;
   price: number;
   discount: number;
-  thumbnailImage: ImageLinkType;
+  thumbnailImageLinks: ImageLinkType[];
 };
 
 export type ProductType = BaseProductType & {

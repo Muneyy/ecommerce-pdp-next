@@ -8,16 +8,15 @@ import imageProduct2Thumbnail from "@/assets/images/image-product-2-thumbnail.jp
 import imageProduct3Thumbnail from "@/assets/images/image-product-3-thumbnail.jpg";
 import imageProduct4Thumbnail from "@/assets/images/image-product-4-thumbnail.jpg";
 
-export function makeServer() {
-  let server = createServer({
+export default function makeServer() {
+  const server = createServer({
     models: {
       product: Model,
     },
 
     routes() {
       this.namespace = "api";
-
-      this.get("/products", (schema) => {
+      this.get("/products", () => {
         return [
           {
             id: 1,
@@ -48,7 +47,8 @@ export function makeServer() {
                 altText:
                   "A seemingly floating shoe with its heel placed on top of two pebbles stacked together on an orange background",
               },
-
+            ],
+            thumbnailImageLinks: [
               {
                 link: imageProduct1Thumbnail,
                 altText:
@@ -70,11 +70,6 @@ export function makeServer() {
                   "A seemingly floating shoe with its heel placed on top of two pebbles stacked together on an orange background",
               },
             ],
-            thumbnailImage: {
-              link: imageProduct1Thumbnail,
-              altText:
-                "A pair of white, orange, and brown sneakers on an orange background.",
-            },
           },
         ];
       });

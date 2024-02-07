@@ -1,11 +1,13 @@
 "use client";
 
+import React, { useCallback, useState, useMemo } from "react";
 import Header from "@/components/Header/Header";
 import styles from "./page.module.sass";
 import CartProvider from "@/context/CartContext";
-import { makeServer } from "@/mirage/mirage";
-import { useCallback, useState, useMemo } from "react";
+import makeServer from "@/mirage/mirage";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import ProductImages from "@/components/ProductImages/ProductImages";
+import ProductDetails from "@/components/ProductDetails/ProductDetails";
 
 makeServer();
 
@@ -25,13 +27,19 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
+      {showSidebar && (
+        <button
+          type="button"
+          aria-label="Close sidebar"
+          className={styles.overlay}
+          onClick={toggleSidebar}
+        />
+      )}
+      <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
       <CartProvider>
-        {showSidebar && (
-          <div className={styles.overlay} onClick={toggleSidebar}></div>
-        )}
-        <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
-
         {memoizedHeader}
+        <ProductImages />
+        <ProductDetails />
       </CartProvider>
     </main>
   );

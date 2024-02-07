@@ -29,7 +29,7 @@ export default function Sidebar({
           {navLinks.map((link) => {
             return (
               <li key={link}>
-                <a href={"#"}>{link}</a>
+                <a href="#">{link}</a>
               </li>
             );
           })}
