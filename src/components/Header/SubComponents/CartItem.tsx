@@ -43,6 +43,7 @@ export default function CartItem({ cartItem } : {
         type="button"
         aria-label="Delete product from cart"
         onClick={handleDeleteClick}
+        className={styles.deleteButton}
       >
         <DeleteSvg />
       </button>
