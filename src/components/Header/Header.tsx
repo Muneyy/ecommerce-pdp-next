@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import avatarPng from "@/assets/images/image-avatar.png";
 import styles from "./Header.module.sass";
 import { CartSvg, LogoSvg, MenuSvg } from "@/assets/svgs/SvgComponents";
@@ -19,6 +19,8 @@ export default function Header({
   const handleCartClick = () => {
     setIsCartShown((prevState) => !prevState);
   };
+
+  const buttonRef = useRef(null);
 
   return (
     <header className={styles.header}>
@@ -42,6 +44,7 @@ export default function Header({
             className={styles.cartButton}
             aria-label="Toggle shopping cart"
             onClick={handleCartClick}
+            ref={buttonRef}
           >
             <CartSvg />
             {cart.length > 0 && (
@@ -56,7 +59,12 @@ export default function Header({
             alt="icon for user avatar, a long-haired man with sunglasses"
             width={29}
           />
-          {isCartShown && <Cart />}
+          {isCartShown && (
+            <Cart
+              buttonRef={buttonRef}
+              setIsCartShown={setIsCartShown}
+            />
+          )}
         </div>
       </section>
     </header>
