@@ -20,6 +20,7 @@
 .userAndAvatar
     display: flex
     align-items: center
+    position: relative
     gap: 13px
 
 .companyLogo,
@@ -32,3 +33,17 @@
     border-radius: 50%
     &:hover
         border: 2px solid var(--orange)
+
+.cartButton
+    position: relative
+    > .cartQuantityDisplay
+        position: absolute
+        top: -4px
+        right: -1px
+        background-color: var(--orange)
+        color: white
+        border-radius: 10px
+        padding: 1px 5px
+        font-size: 0.6rem
+        font-weight: bold
+        width: 20px
