@@ -1,0 +1,29 @@
+.navLinks
+    height: 100%
+    > ul
+        display: flex
+        flex-direction: row
+        gap: 16px
+        height: 100%
+        > li
+            list-style: none
+            margin: auto
+            height: 100%
+            width: 100%
+            > a
+                padding: 0px 8px
+                display: flex
+                align-items: center
+                color: var(--dark-grayish-blue)
+                text-decoration: none
+                height: 100%
+                width: 100%
+                border-bottom: 3px solid transparent
+                font-size: 0.9rem
+                &:hover
+                    font-weight: 700
+                    border-bottom: solid var(--orange)
+    @media screen and (max-width: 1200px)
+        display: none
+    @media screen and (min-width: 1201px)
+        display: flex

@@ -13,7 +13,7 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import { CartProductType } from "@/types/productTypes";
+import { CartProductType, ProductType } from "@/types/productTypes";
 
 type CartContextType = {
   cart: CartProductType[];
